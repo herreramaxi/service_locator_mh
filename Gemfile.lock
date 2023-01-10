@@ -1,0 +1,19 @@
+PATH
+  remote: .
+  specs:
+    service_locator_mh (0.1.1)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    rake (13.0.6)
+
+PLATFORMS
+  x64-mingw-ucrt
+
+DEPENDENCIES
+  rake (~> 13.0)
+  service_locator_mh!
+
+BUNDLED WITH
+   2.3.25
