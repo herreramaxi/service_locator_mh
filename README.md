@@ -16,33 +16,35 @@ If bundler is not being used to manage dependencies, install the gem by executin
 ### Register a service
 Modify your "config/application.rb" to register your services as below:
 ```
-config.before_configuration do
-    ServiceLocator.instance.register_by_type(StockPricesService, StockPricesService.new)
-    ServiceLocator.instance.register_by_type(IntradayStockPricesService, IntradayStockPricesService.new)
-    ServiceLocator.instance.register_by_name('MyService', MyService.new)
-end
+    config.before_configuration do
+        ServiceLocator.instance.register_by_type(StockPricesService, StockPricesService.new)
+        ServiceLocator.instance.register_by_type(IntradayStockPricesService, IntradayStockPricesService.new)
+        ServiceLocator.instance.register_by_name('MyService', MyService.new)
+    end
 ```
 You could register different service instances depending on the environment or any custom logic:
 ```
-config.before_configuration do     
-    if ENV['FAKE_SERVICES'] == 'true' || Rails.env == 'test'
-      puts 'Using fake services'
-      ServiceLocator.instance.register_by_type(StockPricesService, StockPricesServiceFake.new)
-      ServiceLocator.instance.register_by_type(IntradayStockPricesService, IntradayStockPricesServiceFake.new)
-    else
-      ServiceLocator.instance.register_by_type(StockPricesService, StockPricesService.new)
-      ServiceLocator.instance.register_by_type(IntradayStockPricesService, IntradayStockPricesService.new)
+    config.before_configuration do     
+        if ENV['FAKE_SERVICES'] == 'true' || Rails.env == 'test'
+          puts 'Using fake services'
+          ServiceLocator.instance.register_by_type(StockPricesService, StockPricesServiceFake.new)
+          ServiceLocator.instance.register_by_type(IntradayStockPricesService, IntradayStockPricesServiceFake.new)
+        else
+          ServiceLocator.instance.register_by_type(StockPricesService, StockPricesService.new)
+          ServiceLocator.instance.register_by_type(IntradayStockPricesService, IntradayStockPricesService.new)
+        end
     end
-end
 ```
 
 ### Obtain a service
 On your controller, helper or other:
+```
     intradayService = ServiceLocator.instance.get_service_by_type(IntradayStockPricesService)
     intradayService.get_intra_day_prices("GOOG");
 
     myService = ServiceLocator.instance.get_service_by_name('MyService')
     myService.do_something();
+```
 
 ## Contributing
 
